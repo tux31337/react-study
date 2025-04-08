@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
   const [id, setId] = useState("");
+  const idRef = useRef(null); // 화면을 바꾸지 않는 데이터 , 값이 바뀌어도 리랜더링이 일어나지 않는다.
+  const passwordRef = useRef(null);
   const [domain, setDomain] = useState("naver.com");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -47,13 +49,14 @@ function App() {
     setCount(4);
 
     if (!id?.trim()) {
-      setErrors(errors);
       setErrors({ idError: "아이디를 입력해주세요" });
+      idRef.current.focus();
       return;
     }
 
     if (!password?.trim()) {
       setErrors({ passwordError: "비밀번호를 입력해주세요" });
+      passwordRef.current.focus();
       return;
     }
 
@@ -67,7 +70,15 @@ function App() {
         <label htmlFor="id" style={{ display: "inline-block", width: "80px" }}>
           아이디
         </label>
-        <input type="text" id="id" value={id} onChange={onChangeEmail} />
+        <input
+          type="text"
+          id="id"
+          value={id}
+          ref={(node) => {
+            idRef.current = node;
+          }}
+          onChange={onChangeEmail}
+        />
         {domain === "" ? null : <span>@</span>}
         <select value={domain} onChange={onChangeDomain}>
           {domains.map((d) => {
@@ -93,6 +104,7 @@ function App() {
         id="password"
         value={password}
         onChange={onChangePassword}
+        ref={passwordRef}
       />
       {errors.passwordError && (
         <div style={{ color: "red" }}>{errors.passwordError}</div>
