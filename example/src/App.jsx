@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
 
 function App() {
@@ -14,8 +13,6 @@ function App() {
   const [count, setCount] = useState(0);
 
   const domains = ["naver.com", "gmail.com", "hanmail.net"];
-
-  console.log("App", id);
 
   const onChangeEmail = (e) => {
     console.log("beforeChange", id);
